@@ -1,0 +1,9 @@
+#Error code as 
+p1 <- ggplot(data=grp, aes(x=Var1, y=Var2, fill=value))+geom_point()+
+             geom_segment(data=data.frame(x0=1,x1=2,y0=1,y2=2), aes(xmin=x0,xmax=x1,ymin=y0,ymax=y1))
+# It output: Error in eval(expr, envir, enclos) : object 'Var1' not found
+# This is because in geom_segment it automatically search aes varabels in global aes. Two ways to resolve this:
+# 1. directly using like  +geom_segment(xmin=1,xmax=2,ymin=1,ymax=2)
+# 2. However in some cases, you have to use the way of defining data and aes (crazy bug in ggplot as shown in another post).
+#    So just adding inherit.aes=FALSE like  
+#    +geom_segment(data=data.frame(x0=1,x1=2,y0=1,y2=2), aes(xmin=x0,xmax=x1,ymin=y0,ymax=y1),inherit.aes=FALSE)
